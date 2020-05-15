@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>SigmaJS example</title>
+    <script type="text/javascript"
+         src="{{ url_for('static', filename='./build/sigma.min.js') }}"></script>
+    <script type="text/javascript"
+         src="{{ url_for('static', filename='./build/plugins/sigma.parsers.json.min.js') }}"></script>
+   <!-- <script src="./build/sigma.min.js"></script>
+    <script src="./build/plugins/sigma.parsers.json.min.js"></script> -->
+     <!--<script type="text/javascript" src="graph.js"></script> -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+     <script type="text/javascript" {{ url_for('static', filename='app.js')}}></script>
+    <script type="text/javascript">
+       graph_data = '{{graphs|tojson}}'
+    </script> 
+ 
+    <style>
+      html { height:100%;}
+      body {height: 100%;}
+      #sigma-container { width:100%; height:100%; background-color:#E1E1E1}
+    </style>
+  </head>
+  <body>
+    <div id='sigma-container'></div>
+    <script>
+      // Initialize sigma:
+      var s = new sigma(
+        {
+           renderer: {
+             container: document.getElementById('sigma-container'),
+             type: 'canvas'
+           },
+           settings: {}
+         }
+       );
+    //    var graph = {
+           
+    //         // nodes: [
+    //         //     { "id": 0, "label": "mahavir", x: 0, y: -6, size: 3, color: '#282c34' , shubham :"papakipari"},
+    //         //     { "id": 1, "label": "Sankata", x: -2, y: -3, size: 2, color: '#008cc2' , shubham :"papakipari" },
+    //         //     { "id": 2, "label": "kanta", x: -1, y: -3, size: 2, color: '#008cc2' , shubham :"papakipari" },
+    //         //     { "id": 3, "label": "lalta", x: 0, y: -3, size: 2, color: '#008cc2' , shubham :"papakipari" },
+    //         //     { "id": 4, "label": "gaya", x: 1, y: -3, size: 2, color: '#008cc2' , shubham :"papakipari" },
+    //         //     { "id": 5, "label": "hari", x: 2, y: -3, size: 2, color: '#008cc2' , shubham :"papakipari" },
+    //         //     { "id": 6, "label": "Sanju", x: -3, y: 0, size: 1, color: '#E57821' , shubham :"papakipari" },
+    //         //     { "id": 7, "label": "rinku", x: -2, y: 0, size: 1, color: '#E57821' , shubham :"papakipari" },
+    //         //     { "id": 8, "label": "pintu", x: -1, y: 0, size: 1, color: '#E57821' , shubham :"papakipari" },
+    //         //     { "id": 9, "label": "dada", x: 0, y: 0, size: 1, color: '#E57821' , shubham :"papakipari" },
+    //         //     { "id": 10, "label": "ankit", x: 1, y: 0, size: 1, color: '#E57821' , shubham :"papakipari" },
+    //         //     { "id": 11, "label": "shubham", x: 2, y: 0, size: 1, color: '#E57821' , shubham :"papakipari" },
+    //         //     { "id": 12, "label": "aman", x: 3, y: 0, size: 1, color: '#E57821' , shubham :"papakipari" }
+    //         // ],
+    //         // edges: [
+    //         //     { "id": 1, "source": 0, "target": 1, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 2, "source": 0, "target": 2, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 3, "source": 0, "target": 3, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 4, "source": 0, "target": 4, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 5, "source": 0, "target": 5, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 6, "source": 1, "target": 6, type: 'arrow' , color: '#282c34', size:10},
+    //         //     { "id": 7, "source": 1, "target": 7, type: 'arrow' , color: '#282c34', size:10},
+    //         //     { "id": 8, "source": 2, "target": 8, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 9, "source": 3, "target": 9, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 10, "source": 3, "target": 10, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 11, "source": 4, "target": 11, type: 'arrow' , color: '#FF0000', size:10},
+    //         //     { "id": 12, "source": 5, "target": 12, type: 'arrow' , color: '#FF0000', size:10}
+    //         // ]
+    //     }
+    //console.log(graph_data)
+    graph=JSON.parse(graph_data);
+    console.log(graph)
+         s.graph.read(graph);
+        
+        s.refresh();
+
+    </script>
+  </body>
+</html>

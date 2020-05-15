@@ -1,0 +1,448 @@
+<html>
+  <head>
+    <title>Disease Predictor</title>
+    <script src="{{ url_for('static', filename='./src/sigma.core.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/conrad.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/utils/sigma.utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/utils/sigma.polyfills.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/sigma.settings.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/classes/sigma.classes.dispatcher.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/classes/sigma.classes.configurable.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/classes/sigma.classes.graph.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/classes/sigma.classes.camera.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/classes/sigma.classes.quad.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/classes/sigma.classes.edgequad.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/captors/sigma.captors.mouse.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/captors/sigma.captors.touch.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/captors/sigma.captors.mouse.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/captors/sigma.captors.touch.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/sigma.renderers.canvas.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/sigma.renderers.webgl.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/sigma.renderers.svg.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/sigma.renderers.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/webgl/sigma.webgl.nodes.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/webgl/sigma.webgl.nodes.fast.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/webgl/sigma.webgl.edges.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/webgl/sigma.webgl.edges.fast.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/webgl/sigma.webgl.edges.arrow.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.labels.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.hovers.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.nodes.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edges.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edges.curve.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edges.arrow.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edges.curvedArrow.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edgehovers.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edgehovers.curve.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edgehovers.arrow.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/canvas/sigma.canvas.extremities.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/svg/sigma.svg.utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/svg/sigma.svg.nodes.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/svg/sigma.svg.edges.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/svg/sigma.svg.edges.curve.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/svg/sigma.svg.labels.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/renderers/svg/sigma.svg.hovers.def.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/middlewares/sigma.middlewares.rescale.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/middlewares/sigma.middlewares.copy.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/misc/sigma.misc.animation.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/misc/sigma.misc.bindEvents.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/misc/sigma.misc.bindDOMEvents.js') }}"></script>
+    <script src="{{ url_for('static', filename='./src/misc/sigma.misc.drawHovers.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='./build/sigma.min.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='./plugins/sigma.parsers.json/sigma.parsers.json.js') }}"></script>
+    <script src="{{ url_for('static', filename='./plugins/sigma.plugins.animate/sigma.plugins.animate.js') }}"></script>
+
+     <!--<script  src="graph.js"></script> -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+     <script  {{ url_for('static', filename='app.js')}}></script>
+    <script type="text/javascript">
+       graph_data = '{{graphs|tojson}}'
+       data_lists='{{data_lists|tojson}}'
+       symptoms = [];
+    </script> 
+ 
+    <style>
+      html { height:100%;}
+      body {height: 100%;}
+      #sigma-container { 
+        width:100%; 
+        height:90%; 
+        margin:inherit;
+        background-color:#E1E1E1}
+
+        /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 500px; /* Location of the box */
+      padding-left:500px;
+      /*left: 50%;*/
+      top: 0;
+      margin-left: 100
+      width: 50%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      text-align: -webkit-center;
+
+      background-color: #fefefe;
+      margin: auto;
+      border: 16.25px;
+      border-radius: 25px;
+      padding: 0;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+      -webkit-animation-name: animatetop;
+      -webkit-animation-duration: 0.4s;
+      animation-name: animatetop;
+      animation-duration: 0.4s
+    }
+
+    /* Add Animation */
+    @-webkit-keyframes animatetop {
+      from {top:-300px; opacity:0} 
+      to {top:0; opacity:1}
+    }
+
+    @keyframes animatetop {
+      from {top:-300px; opacity:0}
+      to {top:0; opacity:1}
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal-header {
+      margin-bottom: 5;
+      border: 0;
+      padding: 2px 10px;
+      background-color: #333;
+      color: white;
+    }
+
+    .modal-body {
+      border: 0;
+      margin: unset;
+      align-items: center;
+      border-radius: 5px;
+      padding-block-end: 10px;
+    }
+
+    .modal-footer {
+      margin: unset;
+      border: 0;
+      background-color: #333;
+      color: white;
+    }
+    div.scrollmenu {
+      background-color: #333;
+      overflow: auto;
+      white-space: nowrap;
+      padding: 1%;
+    }
+
+    div.scrollmenu a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px;
+      text-decoration: none;
+    }
+
+    div.scrollmenu a:hover {
+      background-color: #777;
+    }
+    
+    select{
+          text-align-last: center;
+    border-radius: 20px;
+    cursor: pointer;
+    background: transparent;
+    display: inline-block;
+    position: relative;
+    height: 40;
+    border-width: 5px;
+    font-size: 16px;
+    color: white;
+    }
+    option{
+          background: transparent;
+    background-color: #ece4e4cc;
+    color: #0b0c0c;
+    }
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        bottom: 15px;
+
+      }
+
+      .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #333;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+    </style>
+  </head>
+  <body>
+  <div class="scrollmenu">
+    <select id="symp"><option value="">--Select Symptom--</option></select>
+    <!--<input type="text" id="symp" name="fname"><br>-->
+    <a id="Add_Symptom">Add Symptom</a>
+    <a id="new_patient">New Patient</a>
+    <a id="without_edges">Without Edges</a>
+    <a id="with_edges">With Edges</a>
+    <a id="only_symptoms">Only Symptoms</a>
+    <a id="only_diseases">Only Diseases</a>
+    <label class="switch">
+  <input type="checkbox">  <span class="slider"></span></label>
+  </div>
+    <div id='sigma-container'></div>
+    <div id="myModal" class="modal">
+    
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h3>Edge Infromation</h3>
+      </div>
+      <div >
+        <h3 class="modal-footer">Source</h3>
+        <p class="modal-body" id="model-text-1">Some text in the Modal Body</p>
+        <h3 class="modal-footer">Destination</h3>
+        <p class="modal-body" id="model-text-2">Some other text...</p>
+        <h3 class="modal-footer">Probability</h3>
+        <p class="modal-body" id="model-text-3">Unknown</p>
+      </div>
+    </div>
+
+</div>
+    <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+      // Initialize sigma:
+      var s = new sigma(
+        {
+           renderer: {
+             container: document.getElementById('sigma-container'),
+             type: 'canvas'
+           },
+           settings: {'drawLabels': false,
+           enableEdgeHovering: true,
+            edgeHoverColor: 'edge',
+            defaultEdgeHoverColor: '#555',
+            edgeHoverSizeRatio: 3,
+            skipErrors:true,
+            batchEdgesDrawing:true,
+            webglEdgesBatchSize:2000,
+            edgeHoverExtremities: true,  //this is for clicking the edge and geting the source and destination highlight
+            }
+         }
+       );
+        
+        graph=JSON.parse(graph_data);
+        data_lists=JSON.parse(data_lists);
+        console.log("initial graph load");
+        console.log(graph)
+        sub_graph=$.extend( true, {}, graph );
+        s.graph.read(graph);
+        //s.bind('overNode outNode clickNode doubleClickNode rightClickNode', function(e) {
+          //console.log(e.type, e.data.node.label, e.data.captor);
+          //modal.style.display = "block";
+        //});
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+        span.onclick = function() {
+            modal.style.display = "none";
+          }
+        s.bind('clickEdge', function(e) {
+          modal.style.display = "none";
+          console.log(e.type, e.data.edge ,e.data.captor );
+          document.getElementById("model-text-1").innerText= e.data.edge.source;
+          document.getElementById("model-text-2").innerText= e.data.edge.target;
+          $('.modal').css({ 'padding-left' : e.data.captor.clientX.toString().concat("px") });
+          $('.modal').css({ 'padding-top' : e.data.captor.clientY.toString().concat("px") });
+          if(e.data.edge.Probability)
+          {
+            document.getElementById("model-text-3").innerText= e.data.edge.Probability;
+          }
+          modal.style.display = "block";
+        });
+        
+         
+        s.refresh();
+
+        function populateSelect() {
+        // THE JSON ARRAY.
+            var ele = document.getElementById('symp');
+            console.log(data_lists);
+            for (var i = 1; i <= data_lists["symptoms"].length; i++) {
+                // POPULATE SELECT ELEMENT WITH JSON.
+                ele.innerHTML = ele.innerHTML +
+                    '<option value="' + i + '">' + data_lists["symptoms"][i-1] + '</option>';
+            }
+        }
+        window.onload = function() {
+          populateSelect();
+	        // setup the button click
+	        document.getElementById("Add_Symptom").onclick = function() {
+            doWork()
+	        };
+        }
+        
+        document.getElementById("new_patient").onclick = function() {
+            symptoms=[];
+            sub_graph=$.extend( true, {}, graph );
+            console.log("New Patient");
+            console.log(sub_graph);
+            s.graph.clear();
+            s.graph.read(sub_graph);        
+            s.refresh();
+            console.log("printes");
+
+	        };
+        document.getElementById("without_edges").onclick = function() {
+            s.graph.clear();
+            s.graph.read(sub_graph);
+            s.settings('enableEdgeHovering', false);
+            s.settings('drawEdges', false);       
+            s.refresh();
+            s.settings('drawEdges', true); 
+            s.settings('enableEdgeHovering', true);
+	        };
+        document.getElementById("with_edges").onclick = function() {
+            console.log("Graph with edges")
+            console.log(sub_graph);
+            s.graph.clear();
+            s.graph.read(sub_graph);        
+            s.refresh();
+	        };
+
+        document.getElementById("only_symptoms").onclick = function() {
+                send_data = JSON.stringify(symptoms);
+                $.post("symptom_nodes", send_data, function(output){
+                    graph_diseases=JSON.parse(output);
+                    console.log("Only Symptoms graph");
+                    console.log(graph_diseases);
+                    s.graph.clear();
+                    s.graph.read(graph_diseases);        
+                    s.refresh();
+	            });
+
+            
+        };
+
+        document.getElementById("only_diseases").onclick = function() {
+                send_data = JSON.stringify(symptoms);
+                $.post("diseases_nodes", send_data, function(output){
+                    graph_diseases=JSON.parse(output);
+                    console.log("Only Disease graph");
+                    console.log(graph_diseases);
+                    s.graph.clear();
+                    s.graph.read(graph_diseases);        
+                    s.refresh();
+	            });
+
+            
+        };
+        function doWork() {
+            var current_symptom= document.getElementById("symp").options[document.getElementById("symp").selectedIndex].text;
+            if (document.getElementById("symp").selectedIndex == 0 ){
+                window.alert("please enter symptom");
+            }
+            else
+            {
+                
+                console.log("Symptoms Array");
+                symptoms.push(current_symptom);
+                console.log(symptoms); 
+                row_data = JSON.stringify(symptoms);
+                $.post("receiver", row_data, function(output){
+                    sub_graph=JSON.parse(output)
+                    console.log("Sub Graph");
+                    console.log(sub_graph);
+                    s.graph.clear();
+                    s.graph.read(sub_graph);        
+                    s.refresh();
+                });
+            }
+            
+            // When the user clicks on <span> (x), close the modal
+               
+            //symptoms=['hallucinations auditory','feeling hopeless','weepiness','sleeplessness']
+            
+            // stop link reloading the page
+            //event.preventDefault();
+        }
+
+    </script>
+    
+  </body>
+</html>
